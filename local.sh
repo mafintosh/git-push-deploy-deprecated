@@ -45,7 +45,7 @@ CMD=$1
 DOMAIN=$2
 NAME=$(arg n name $DOMAIN)
 
-cd $(dirname $0)
+cd $(dirname $(readlink $0 || echo $0))
 DIRNAME=$PWD
 BUILD_PACK=$DIRNAME/build-packs/$(arg bp build-pack node)
 
