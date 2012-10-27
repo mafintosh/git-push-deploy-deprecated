@@ -118,6 +118,10 @@ cmd-rm-proxy () {
 	remote rm-proxy
 }
 
+cmd-update () {
+	cd $DIRNAME
+	git pull
+}
 
 ## BOOTSTRAP
 
