@@ -127,6 +127,6 @@ cmd-update () {
 
 autocomplete $(cat $DIRNAME/local.sh | grep cmd-[a-z] | sed 's/cmd-\([^ ]*\).*/\1/')
 
-[ "$DOMAIN" == "" ] && error usage: gpd cmd domain
+[ "$DOMAIN" == "" ] && [ "$CMD" != "update" ] && error usage: gpd cmd domain
 
 cmd-$1
