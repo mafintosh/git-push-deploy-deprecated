@@ -1,3 +1,4 @@
+
 ## gpd auto-completion and alias
 
 if complete &>/dev/null; then
@@ -11,4 +12,6 @@ if complete &>/dev/null; then
 	complete -F _gpd_completion gpd
 fi
 
-alias gpd='~/.gpd/local.sh '
+export PATH=$PATH:~/.gpd/bin
+
+## end of gpd settings
