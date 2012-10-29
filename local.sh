@@ -58,14 +58,7 @@ cmd-add-user () {
 	SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 	AUTH_KEYS=\~/.ssh/authorized_keys
 	ssh $ARGV_CMD mkdir -p \~/.ssh\; touch $AUTH_KEYS\; grep \"$SSH_PUBLIC_KEY\" $AUTH_KEYS \> /dev/null \|\| echo \"$SSH_PUBLIC_KEY\" \>\> $AUTH_KEYS
-	ssh ubuntu@$DOMAIN [ ! -e $GPD ] && cmd-publish
-}
-
-cmd-publish () {
-	cd $DIRNAME
-	ssh ubuntu@$DOMAIN mkdir -p $GPD
-	ssh ubuntu@$DOMAIN cd $GPD\; rm -rf $(ls)
-	tar c . | ssh ubuntu@$DOMAIN tar x -C $GPD \2\> /dev/null
+	ssh ubuntu@$DOMAIN [ ! -e $GPD ] && cmd-update
 }
 
 cmd-config () {
@@ -121,12 +114,17 @@ cmd-rm-proxy () {
 
 cmd-update () {
 	cd $DIRNAME
-	git pull
+
+	[ "$DOMAIN" == "" ] && git pull && return $?
+
+	ssh ubuntu@$DOMAIN mkdir -p $GPD
+	ssh ubuntu@$DOMAIN cd $GPD\; rm -rf $(ls)
+	tar c . | ssh ubuntu@$DOMAIN tar x -C $GPD \2\> /dev/null
 }
 
 ## BOOTSTRAP
 
-autocomplete $(cat $DIRNAME/local.sh | grep cmd-[a-z] | sed 's/cmd-\([^ ]*\).*/\1/')
+autocomplete $(cat $DIRNAME/local.sh | grep cmd-[a-z] | sed 's/.*cmd-\([^ ]*\).*/\1/')
 
 [ "$DOMAIN" == "" ] && [ "$CMD" != "update" ] && error usage: gpd cmd domain
 
