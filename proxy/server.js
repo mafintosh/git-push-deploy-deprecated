@@ -7,6 +7,9 @@ proxy.on('connection', function(connection) {
 	var buffer = new Buffer(65536);
 	var offset = 0;
 
+	connection.setTimeout(2*60*1000, function() {
+		connection.destroy();
+	});
 	connection.on('data', function ondata(data) {
 		if (data.length + offset > buffer.length) return;
 

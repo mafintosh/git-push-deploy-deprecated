@@ -42,7 +42,7 @@ CWD=$PWD
 ARGV=$*
 ARGV_CMD=${@:2}
 CMD=$1
-DOMAIN=$2
+DOMAIN=$(echo $ARGV_CMD | sed 's/-[^ ]* [^ ]*//g' | sed 's/ //g' | sed 's/[a-z]*@//g')
 NAME=$(arg n name $DOMAIN)
 
 cd $(dirname $(readlink $0 || echo $0))
@@ -58,6 +58,7 @@ cmd-add-user () {
 	SSH_PUBLIC_KEY=$(cat ~/.ssh/id_rsa.pub)
 	AUTH_KEYS=\~/.ssh/authorized_keys
 	ssh $ARGV_CMD mkdir -p \~/.ssh\; touch $AUTH_KEYS\; grep \"$SSH_PUBLIC_KEY\" $AUTH_KEYS \> /dev/null \|\| echo \"$SSH_PUBLIC_KEY\" \>\> $AUTH_KEYS
+	ssh ubuntu@$DOMAIN [ ! -e $GPD ] && cmd-publish
 }
 
 cmd-publish () {
