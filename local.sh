@@ -99,6 +99,10 @@ cmd-add () {
 	echo added $NAME as a git remote
 }
 
+cmd-ls () {
+	remote ls
+}
+
 cmd-rm () {
 	remote rm $NAME || exit 1
 	is-git-repo && git remote rm $NAME 2> /dev/null

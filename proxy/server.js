@@ -1,13 +1,14 @@
 var net = require('net');
 var path = require('path');
 
+var noop = function() {};
 var proxy = net.createServer();
 
 proxy.on('connection', function(connection) {
 	var buffer = new Buffer(65536);
 	var offset = 0;
 
-	connection.setTimeout(2*60*1000, function() {
+	connection.setTimeout(5*60*1000, function() {
 		connection.destroy();
 	});
 	connection.on('data', function ondata(data) {
@@ -26,16 +27,11 @@ proxy.on('connection', function(connection) {
 		var guest = net.connect('/tmp/'+host+'.git.sock');
 
 		guest.write(buffer.slice(0, offset));
-		connection.pipe(guest).pipe(connection);
+		guest.on('error', noop);
 
-		guest.on('error', function() {
-			guest.destroy();
-			connection.destroy();
-		});
+		connection.pipe(guest).pipe(connection);
 	});
-	connection.on('error', function() {
-		connection.destroy();
-	});
+	connection.on('error', noop);
 });
 
 proxy.listen(80);

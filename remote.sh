@@ -85,6 +85,10 @@ cmd-restart-force () {
 	sudo service $NAME restart
 }
 
+cmd-ls () {
+	ls $GPD/apps
+}
+
 cmd-rm () {
 	app-exists
 	sudo service $NAME stop 2> /dev/null > /dev/null
