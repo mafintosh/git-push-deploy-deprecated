@@ -118,7 +118,7 @@ cmd-add-proxy () {
 	sudo service proxy start
 }
 
-cmd-remove-proxy () {
+cmd-rm-proxy () {
 	sudo service proxy stop
 	sudo rm -f /etc/init/proxy.conf
 }
