@@ -28,7 +28,9 @@ proxy.on('connection', function(connection) {
 
 		connection.setTimeout(0); // our unix socket should take care of timeouts now (TODO: check up on this)
 		guest.write(buffer.slice(0, offset));
-		guest.on('error', noop);
+		guest.on('error', function() {
+			connection.destroy();
+		});
 
 		connection.pipe(guest).pipe(connection);
 	});
