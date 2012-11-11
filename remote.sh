@@ -20,6 +20,7 @@ app-exists () {
 
 GPD=/home/ubuntu/gpd
 APPS=$GPD/apps
+LOG=$GPD/log
 REPOS=/git
 
 CWD=$PWD
@@ -29,7 +30,6 @@ cd $(dirname $0)
 
 DIRNAME=$PWD
 BUILD_PACK=$DIRNAME/build-packs/node
-LOG=/var/log
 
 NAME=$2
 
@@ -44,6 +44,7 @@ cmd-add () {
 	sudo mkdir -p $REPOS
 	sudo chown ubuntu.ubuntu $REPOS
 	mkdir -p $APPS
+	mkdir -p $LOG
 	mkdir -p $REPOS/$NAME.git
 
 	cd $REPOS/$NAME.git || exit 1
