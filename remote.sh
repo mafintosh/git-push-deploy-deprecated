@@ -8,7 +8,7 @@ error () {
 }
 
 template () {
-	cat $1 | sed s/\{name\}/$NAME/g | sed s\|\{app\}\|$APPS/$NAME\|g | sed s\|\{build-pack\}\|$BUILD_PACK\|g | sed s\|\{log\}\|$LOG/$NAME\.log\|g | sed s\|\{gpd\}\|$GPD\|g
+	cat $1 | sed s/\{name\}/$NAME/g | sed s\|\{app\}\|$APPS/$NAME\|g | sed s\|\{build-pack\}\|$BUILD_PACK\|g | sed s\|\{log\}\|$LOG\|g | sed s\|\{gpd\}\|$GPD\|g
 }
 
 app-exists () {
@@ -111,6 +111,8 @@ cmd-log () {
 }
 
 cmd-add-proxy () {
+	mkdir -p $LOG
+
 	template $GPD/proxy/upstart.conf > /tmp/proxy.conf
 	sudo chown root.root /tmp/proxy.conf
 	sudo mv /tmp/proxy.conf /etc/init/proxy.conf
