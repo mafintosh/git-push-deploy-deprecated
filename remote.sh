@@ -104,6 +104,11 @@ cmd-tail () {
 	tail $LOG/$NAME.log -f
 }
 
+cmd-log () {
+	app-exists
+	cat $LOG/$NAME.log
+}
+
 cmd-add-proxy () {
 	template $GPD/proxy/upstart.conf > /tmp/proxy.conf
 	sudo chown root.root /tmp/proxy.conf

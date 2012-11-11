@@ -90,6 +90,10 @@ cmd-tail () {
 	remote tail $NAME
 }
 
+cmd-log () {
+	remote log $NAME
+}
+
 cmd-add () {
 	! is-git-repo && error $(basename $PWD) is not a git repository
 
