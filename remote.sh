@@ -15,6 +15,14 @@ app-exists () {
 	[ ! -e $APPS/$NAME ] && error $NAME does not exist
 }
 
+setup-proxy () {
+	mkdir -p $LOG
+	[ -e /etc/init/proxy.conf ] && return 0
+	template $GPD/proxy/upstart.conf > /tmp/proxy.conf
+	sudo chown root.root /tmp/proxy.conf
+	sudo mv /tmp/proxy.conf /etc/init/proxy.conf
+}
+
 
 ## ENVIRONMENT
 
@@ -110,19 +118,18 @@ cmd-log () {
 	cat $LOG/$NAME.log
 }
 
-cmd-add-proxy () {
-	mkdir -p $LOG
-
-	template $GPD/proxy/upstart.conf > /tmp/proxy.conf
-	sudo chown root.root /tmp/proxy.conf
-	sudo mv /tmp/proxy.conf /etc/init/proxy.conf
-
+cmd-proxy-start () {
+	setup-proxy
 	sudo service proxy start
 }
 
-cmd-rm-proxy () {
+cmd-proxy-stop () {
 	sudo service proxy stop
-	sudo rm -f /etc/init/proxy.conf
+}
+
+cmd-proxy-restart () {
+	setup-proxy
+	sudo service proxy restart
 }
 
 ## BOOTSTRAP

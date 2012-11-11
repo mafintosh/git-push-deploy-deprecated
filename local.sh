@@ -94,6 +94,10 @@ cmd-log () {
 	remote log $NAME
 }
 
+cmd-ls () {
+	remote ls
+}
+
 cmd-add () {
 	! is-git-repo && error $(basename $PWD) is not a git repository
 
@@ -103,21 +107,21 @@ cmd-add () {
 	echo added $NAME as a git remote
 }
 
-cmd-ls () {
-	remote ls
-}
-
 cmd-rm () {
 	remote rm $NAME || exit 1
 	is-git-repo && git remote rm $NAME 2> /dev/null
 }
 
-cmd-add-proxy () {
-	remote add-proxy
+cmd-proxy-start () {
+	remote proxy-start
 }
 
-cmd-rm-proxy () {
-	remote rm-proxy
+cmd-proxy-stop () {
+	remote proxy-stop
+}
+
+cmd-proxy-restart () {
+	remote proxy-restart
 }
 
 cmd-update () {
