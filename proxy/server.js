@@ -8,7 +8,7 @@ proxy.on('connection', function(connection) {
 	var buffer = new Buffer(65536);
 	var offset = 0;
 
-	connection.setTimeout(5*60*1000, function() {
+	connection.setTimeout(2*60*1000, function() {
 		connection.destroy();
 	});
 	connection.on('data', function ondata(data) {
@@ -26,6 +26,7 @@ proxy.on('connection', function(connection) {
 
 		var guest = net.connect('/tmp/'+host+'.git.sock');
 
+		connection.setTimeout(0); // our unix socket should take care of timeouts now (TODO: check up on this)
 		guest.write(buffer.slice(0, offset));
 		guest.on('error', noop);
 
